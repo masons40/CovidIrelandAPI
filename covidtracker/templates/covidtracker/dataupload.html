@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Covid Data Ireland</title>
+    <link rel="icon" href="{% static 'images/logo.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}">
+    <script src="https://kit.fontawesome.com/d4fe39a567.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <form action="/covidtracker/upload" method="post">
+        {% csrf_token %}
+        <label for="url_text">URL:</label>
+        <input id="url_text" type="text" name="url_link"/>
+        <label for="date">Date:</label>
+        <input id="date" type="date" name="date"/>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

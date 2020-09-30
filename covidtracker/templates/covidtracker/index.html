@@ -1,0 +1,569 @@
+{% load static %}
+{% load filter %}
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Covid Ireland</title>
+        <link rel="icon" href="{% static 'images/logo_text.png' %}">
+        <script src="https://kit.fontawesome.com/d4fe39a567.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
+        <link href="{% static 'style/style.css' %}" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+<!--
+        <header>
+            <img src="https://www.thecompassforsbc.org/sites/default/files/COVID-19%20icon%202FINAL.png" id="logo">
+            <h3>Covid-19 data Ireland</h3>
+
+        </header>
+
+-->
+        <img src="{% static 'images/logo_text.png' %}" id="logo">
+
+        <main>
+            <div class="main-box">
+                <div id="logo-text">
+                    <h3>Covid-19 data Ireland</h3>
+                </div>
+
+                <div class="donut-charts">
+                    <div class="donut-chart-box">
+                        <h5>Gender Breakdown</h5>
+                        <div class="pie-chart-data-text">
+
+                            <div class="pie-chart-text">
+                                <span class="circle" id="orange-circle"></span>
+                                <h5>Male ({{ data.gender_data.male}})</h5>
+                            </div>
+
+                            <div class="pie-chart-text">
+                                <span class="circle" id="green-circle"></span>
+                                <h5>Female ({{ data.gender_data.female}})</h5>
+                            </div>
+
+                            <div class="pie-chart-text">
+                                <span class="circle" id="intermediate-circle"></span>
+                                <h5>Other ({{ data.gender_data.other}})</h5>
+                            </div>
+
+                        </div>
+                        <div id="donutchart" class="pie-chart"></div>
+                    </div>
+                    <div class="donut-chart-box">
+                        <h5>Covid transmission</h5>
+                        <div class="pie-chart-data-text">
+
+                            <div class="pie-chart-text">
+                                <span class="circle" id="orange-circle"></span>
+                                <h5>Community transmission</h5>
+                            </div>
+
+                            <div class="pie-chart-text">
+                                <span class="circle" id="green-circle"></span>
+                                <h5>Close contact</h5>
+                            </div>
+
+                            <div class="pie-chart-text">
+                                <span class="circle" id="intermediate-circle"></span>
+                                <h5>Travel abroad</h5>
+                            </div>
+
+                        </div>
+                        <button type="button" class="btn information-btn" data-toggle="popover" data-content="In the event that a person tests positive for COVID-19 and hasn't been abroad or had contact with another confirmed case in Ireland, that's known as community transmission.
+
+In the event that a person who tests positive for COVID-19 can be linked to another confirmed case in Ireland, that's known as close contact."><i class="fas fa-info-circle"></i></button>
+                        <div id="donutcharttwo" class="pie-chart"></div>
+                    </div>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-chart-container">
+                        <h5>Hospital breakdown</h5>
+                        <div id="container" style="width: 100%;">
+                            <canvas id="canvas"></canvas>
+                        </div>
+<!--                        <div id="chart_div_hospital"></div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="main-box">
+                <form action="/covidtracker/" method="post" id="history-form">
+                    {% csrf_token %}
+                    <label for="date">Select Date:</label>
+                    <input id="date" type="date" name="date"/>
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="card-row">
+
+                    <div class="card-data">
+                        <i class="fas fa-diagnoses card-icon"></i>
+                        <h3>{{ data.covid_stats.total_diagnosed }}</h3>
+                        <h4>Total Diagnosed</h4>
+                        <span class="card-bar green-bar"></span>
+                    </div>
+
+                     <div class="card-data">
+                        <i class="fas fa-hospital-alt card-icon"></i>
+                        <h3>{{ data.covid_stats.hospitalised}}</h3>
+                        <h4>Total Hospitalised</h4>
+                        <span class="card-bar orange-bar"></span>
+                    </div>
+
+                     <div class="card-data">
+                        <i class="fas fa-skull-crossbones card-icon"></i>
+                        <h3>{{ data.covid_stats.total_death}}</h3>
+                        <h4>Total Deaths</h4>
+                        <span class="card-bar green-bar"></span>
+                    </div>
+
+                     <div class="card-data">
+                        <i class="fas fa-user-md card-icon"></i>
+                        <h3>{{ data.covid_stats.healthcare_workers_diagnosed}}</h3>
+                        <h4>Healthcare workers diagnosed</h4>
+                        <span class="card-bar orange-bar"></span>
+                    </div>
+
+                     <div class="card-data">
+                        <i class="fas fa-project-diagram card-icon"></i>
+                        <h3>{{ data.covid_stats.total_clusters}}</h3>
+                        <h4>Total Clusters</h4>
+                         <span class="card-bar green-bar" ></span>
+                    </div>
+
+                </div>
+                <div id="current-trend-graph">
+                    <div id="current-trend-box">
+                         <h5>Trend of deaths and diagnosed</h5>
+<!--                        <div id="curve_chart" style="width:100%;"></div>-->
+                        <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#linechart-modal">
+                          Report a Problem
+                        </button>
+                        <div id="current-trend-text">
+                            <div>
+                                <h5>Deaths</h5>
+                                <span class="current-trend-bar" id="current-trend-deaths"></span>
+
+                            </div>
+                            <div>
+                                <h5>Diagnosed</h5>
+                                <span class="current-trend-bar" id="current-trend-diagnosed"></span>
+
+                            </div>
+                        </div>
+                        <div style="width:95%; margin: 0 auto">
+                            <canvas id="canvas_line"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-row">
+                    <div class="card-data">
+                        <i class="fas fa-project-diagram card-icon"></i>
+                        <h3>{{ data.covid_stats.cluster_diagnosed}}</h3>
+                        <h4>Cluster Diagnosed</h4>
+                        <span class="card-bar green-bar"></span>
+                    </div>
+
+                    <div class="card-data">
+                        <i class="fas fa-procedures card-icon"></i>
+                        <h3>{{ data.covid_stats.icu}}</h3>
+                        <h4>ICU</h4>
+                        <span class="card-bar orange-bar"></span>
+                    </div>
+
+
+                     <div class="card-data">
+                        <i class="fas fa-hourglass-half card-icon"></i>
+                        <h3>{{ data.covid_stats.median_age}}</h3>
+                        <h4>Median Age</h4>
+                        <span class="card-bar orange-bar"></span>
+                    </div>
+
+                     <div class="card-data">
+                        <i class="fas fa-user-md card-icon"></i>
+                        <h3>8,407</h3>
+                        <h4>Healthcare workers diagnosed</h4>
+                        <span class="card-bar green-bar"></span>
+                    </div>
+
+                     <div class="card-data">
+                        <i class="fas fa-project-diagram card-icon"></i>
+                        <h3>2,303</h3>
+                        <h4>Total Clusters</h4>
+                         <span class="card-bar orange-bar"></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="main-box">
+                <div class="tree-div-container">
+                    <button type="button" class="btn btn-sm toogle-button" data-toggle="modal" data-target="#treemap-modal">
+                      Report a Problem
+                    </button>
+                    <h5>County breakdown of covid cases</h5>
+                    <button type="button" class="btn information-btn" data-toggle="popover" data-content="The Health Protection Surveillance Centre have advised that in the process of validating data and reviewing addresses, county totals may change due to cases being reassigned to another county."><i class="fas fa-info-circle"></i></button>
+                    <div id="chart_div" ></div>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-chart-container">
+                        <h5>Age breakdown</h5>
+<!--                        <div id="chart_div_age"></div>-->
+                        <div id="container" style="width: 100%;">
+                            <canvas id="canvas_bar"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <h4>Created and designed by <a href="">Mason Smith</a> •</h4>
+            <h5> All data accurate as of {{ date }}</h5>
+            <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#report-modal">
+              Report a Problem
+            </button>
+        </footer>
+
+            <div class="modal fade" id="report-modal" tabindex="-1" aria-labelledby="report-modal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="/covidtracker/" method="post" id="history-form">
+                    {% csrf_token %}
+
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Report Problem</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <input type="date" value="{{ date }}" style="display: none;" disabled>
+                              <textarea style="width:100%;">
+
+                              </textarea>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Report Problem</button>
+                          </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="treemap-modal" tabindex="-1" aria-labelledby="treemap-modal" aria-hidden="true">
+              <div class="modal-dialog" style="width:100%">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Report Problem</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <button type="button" id="test"></button>
+                      <div id="chart_div_popup"></div>
+                      <input type="range" style="width:100%;">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="linechart-modal" tabindex="-1" aria-labelledby="linechart-modal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Report Problem</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <canvas id="chart_line_popup"></canvas>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+         <script type="text/javascript">
+
+
+     $(document).ready(function (){
+      $('[data-toggle="popover"]').popover();
+      $('.toogle-button').click(function () {
+        {#$('.tree-div-container').toggleClass('expand-view');#}
+      })
+     $('#test').click(function () {
+        drawChartTree();
+     })
+
+        let all_county_data = {{ data|county_data_all }}
+      google.charts.load('current', {'packages':['treemap']});
+      google.charts.setOnLoadCallback(drawChartTree);
+      function drawChartTree() {
+          {% with counties=data.county_data.all|county_list %}
+             var data = google.visualization.arrayToDataTable({{ counties|safe }});
+          {% endwith %}
+
+
+        var options = {
+          minColor: '#f59a5f',
+          midColor: '#45a6d6',
+          maxColor: '#1ada8b',
+          showScale: true,
+            headerHeight: 0,
+            maxDepth: 2,
+            useWeightedAverageForAggregation: true,
+            fontFamily:'PT Sans Narrow',
+            highlightOnMouseOver: true,
+            fontColor: 'white',
+            generateTooltip: showFullTooltip
+        }
+
+          function showFullTooltip(row, cases, percentage, change) {
+            return '<div class="tooltip-data" style="z-index:1400;background:white; padding:10px;font-family:PT Sans Narrow">' +
+                   '<span style="font-family:PT Sans Narrow"><b>' + data.getValue(row, 0) +
+                   '</b>,' + data.getValue(row, 1) + '</span><br>' +
+                    '<br>' +
+               data.getColumnLabel(2) + ': ' + cases + '<br>' +
+               data.getColumnLabel(3) + ': ' + percentage + '<br>'+
+                data.getColumnLabel(4) + ': ' + change+ ' </div>';
+            }
+
+            var tree = new google.visualization.TreeMap(document.getElementById('chart_div'));
+            tree.draw(data, options);
+            var tree_popup = new google.visualization.TreeMap(document.getElementById('chart_div_popup'));
+            tree_popup.draw(data, options);
+      }
+
+
+
+
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChartPie);
+        function drawChartPie() {
+            var data = google.visualization.arrayToDataTable([
+              ['Gender', 'Diagnosed'],
+              ['Female', {{ data.gender_data.female}} ],
+              ['Male',      {{ data.gender_data.male}}],
+              ['Other',  {{ data.gender_data.other}}]
+            ]);
+
+            var options = {
+                backgroundColor: { fill:'transparent' },
+                colors: ['#1ada8b', '#f59a5f', '#45a6d6'],
+                pieHole: 0.4,
+                legend: 'none',
+                fontFamily:'PT Sans Narrow',
+                pieSliceBorderColor: '#1f1f2c'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChartPieTwo);
+            function drawChartPieTwo() {
+            var data = google.visualization.arrayToDataTable([
+              ['Transmission', 'Method'],
+              ['Close Contact',     {{ data.transmission_data.close_contact}}],
+              ['Community Transmission',      {{ data.transmission_data.community_transmission}}],
+              ['Travel Abroad',  {{ data.transmission_data.travel_abroad}}]
+            ]);
+
+            var options = {
+                backgroundColor: { fill:'transparent' },
+                colors: ['#1ada8b', '#f59a5f', '#45a6d6'],
+                pieHole: 0.4,
+                legend: 'none',
+                fontFamily:'PT Sans Narrow',
+                pieSliceBorderColor: '#1f1f2c'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutcharttwo'));
+            chart.draw(data, options);
+        }
+
+
+        var HospitalbarChartData = {
+            labels: ['0 - 4', '5 - 14', '15 - 24', '25 - 34', '35 - 44', '45 - 54', '55 - 64', '65 - 74', '75 - 84', '85+', 'Unknown'],
+            datasets: [{
+                label: 'Diagnosed',
+                backgroundColor: '#f59a5f',
+                borderColor: '#f59a5f',
+                borderWidth: 1,
+                {% with hospital=data.hospital_data|barchart_data %}
+                     data: {{ hospital|safe }}
+                  {% endwith %}
+            }]
+        };
+
+        var AgebarChartData = {
+            labels: ['0 - 4', '5 - 14', '15 - 24', '25 - 34', '35 - 44', '45 - 54', '55 - 64', '65 - 74', '75 - 84', '85+', 'Unknown'],
+            datasets: [{
+                label: 'Diagnosed',
+                backgroundColor: '#1ada8b',
+                borderColor: '#1ada8b',
+                borderWidth: 1,
+                {% with age=data.age_data|barchart_data %}
+                     data: {{ age|safe }}
+                  {% endwith %}
+            }]
+        };
+
+
+
+        var config4 = {
+            type: 'line',
+            data: {
+                {% with trend_data_found=data|trend_data %}
+                labels: {{ trend_data_found.labels|safe }},
+                datasets: [{
+                    label: 'Deaths',
+                    backgroundColor: '#f59a5f',
+                    borderColor: '#f59a5f',
+                    data: {{ trend_data_found.deaths|safe }},
+                    fill: false,
+                }, {
+                    label: 'Diagnosed',
+                    fill: false,
+                    backgroundColor: '#1ada8b',
+                    borderColor: '#1ada8b',
+                    data: {{ trend_data_found.diagnosed|safe }},
+                }]
+                {% endwith %}
+            },
+            options: {
+                responsive: true,
+                legend: {
+                        display: false,
+                    },
+                title: {
+                    display: false,
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false
+                        },
+                        ticks: {
+                               fontColor: "white",
+                               fontSize: 11,
+                                  fontFamily: 'PT Sans Narrow'
+                              }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false
+                        },
+                        ticks: {
+                               fontColor: "white",
+                               fontSize: 11,
+                                  fontFamily: 'PT Sans Narrow'
+                              }
+                    }]
+                }
+            }
+        };
+
+             window.onload = function() {
+            var ctx2 = document.getElementById('canvas').getContext('2d');
+            var ctx3 = document.getElementById('canvas_bar').getContext('2d');
+            window.myBar = new Chart(ctx2, {
+                type: 'bar',
+                data: HospitalbarChartData,
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false,
+                    },
+                    scales: {
+                      xAxes: [{
+                              ticks: {
+                               fontColor: "white",
+                               fontSize: 11,
+                                  fontFamily: 'PT Sans Narrow'
+                              }
+                              }],
+                      yAxes: [{
+                              ticks: {
+                               fontColor: "white",
+                               fontSize: 11,
+                                  fontFamily: 'PT Sans Narrow'
+                              }
+                              }]
+                      },
+                    title: {
+                        display: false,
+                    }
+                }
+            })
+            window.myBar2 = new Chart(ctx3, {
+                type: 'bar',
+                data: AgebarChartData,
+
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false,
+                    },
+                    scales: {
+                      xAxes: [{
+                              ticks: {
+                               fontColor: "white",
+                               fontSize: 11,
+                                  fontFamily: 'PT Sans Narrow'
+                              }
+                              }],
+                      yAxes: [{
+                              ticks: {
+                               fontColor: "white",
+                               fontSize: 11,
+                                  fontFamily: 'PT Sans Narrow'
+                              }
+                              }]
+                      },
+                    title: {
+                        display: false,
+                    }
+                }
+            })
+                 var ctx4 = document.getElementById('canvas_line').getContext('2d');
+            window.myLine = new Chart(ctx4, config4);
+            var ctx5 = document.getElementById('chart_line_popup').getContext('2d');
+            window.myLinePop = new Chart(ctx5, config4);
+        };
+    });
+
+    </script>
+    <script src="{% static 'script/script.js' %}"></script>
+    </body>
+</html>

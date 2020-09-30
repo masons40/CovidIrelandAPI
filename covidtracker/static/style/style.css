@@ -1,0 +1,293 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-decoration: none;
+}
+
+body {
+  background: linear-gradient(#1f1f2c, #18181c);
+}
+
+h1, h2, h3, h4, h5, h6, i {
+  color: white;
+  font-family: "PT Sans Narrow", sans-serif;
+}
+
+h3 {
+  font-size: 1.1em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.8em;
+}
+
+#logo {
+  width: 5%;
+  position: fixed;
+  top: 5px;
+  left: 5px;
+}
+
+header {
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal .modal-content {
+  background: linear-gradient(#3a3744, #202735);
+}
+.modal .close {
+  color: #fff;
+  text-shadow: none;
+  opacity: 1;
+}
+.modal .modal-footer {
+  border-top: none;
+}
+.modal .modal-header {
+  border-bottom: none;
+}
+.modal #treemap-modal .modal-dialog {
+  width: 85%;
+}
+
+@media (min-width: 576px) {
+  #treemap-modal .modal-dialog {
+    max-width: 95%;
+    margin: 1.75rem auto;
+  }
+
+  #linechart-modal .modal-dialog {
+    max-width: 95%;
+    margin: 1.75rem auto;
+  }
+}
+footer {
+  text-align: center;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer h5 {
+  margin: 0 3px;
+}
+footer button {
+  background-color: #f59a5f;
+  color: white;
+  margin: 0 3px;
+}
+
+main {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+  padding: 0 6px;
+}
+main #history-form {
+  text-align: center;
+}
+main #history-form #date {
+  border: none;
+  padding: 3px;
+  background-color: #32323f;
+  color: white;
+  border-radius: 4px;
+  outline: none;
+}
+main #history-form label {
+  color: white;
+}
+main #history-form input[type=date]::-webkit-calendar-picker-indicator {
+  color: white;
+}
+main #history-form button {
+  border: none;
+  background-color: transparent;
+  margin-left: 3px;
+}
+main .main-box {
+  width: 98%;
+  margin: 0 3px;
+}
+main .main-box .card-row {
+  display: inline-grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 6px;
+  margin: 3px 0;
+}
+main .main-box .card-row .card-data {
+  background: linear-gradient(#3a3744, #202735);
+  position: relative;
+  padding: 10px;
+  border-radius: 15px;
+}
+main .main-box .card-row .card-data i {
+  margin-top: 5px;
+  font-size: 0.9em;
+}
+main .main-box .card-row .card-data h3 {
+  font-size: 1em;
+  margin-top: 25px;
+  margin-bottom: 4px;
+}
+main .main-box .card-row .card-data h4 {
+  font-size: 0.7em;
+  margin-bottom: 15px;
+}
+main .main-box .card-row .card-data .card-bar {
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  width: 30px;
+  height: 3px;
+}
+main .main-box .card-row .card-data .orange-bar {
+  background-color: #f59a5f;
+}
+main .main-box .card-row .card-data .green-bar {
+  background-color: #1ada8b;
+}
+main .main-box #logo-text {
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main .main-box #logo-text img {
+  width: 2.4em;
+  margin: 0 5xp;
+}
+main .main-box #current-trend-graph {
+  margin: 3px 0;
+  border-radius: 15px;
+  text-align: center;
+  background: linear-gradient(#3a3744, #202735);
+  padding-top: 10px;
+}
+main .main-box #current-trend-graph #current-trend-text {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+main .main-box #current-trend-graph #current-trend-text .current-trend-bar {
+  width: 10px;
+  height: 10px;
+  border-radius: 100px;
+  background-color: #f59a5f;
+  margin-left: 5px;
+}
+main .main-box #current-trend-graph #current-trend-text #current-trend-diagnosed {
+  background-color: #1ada8b;
+}
+main .main-box #current-trend-graph #current-trend-text div {
+  display: flex;
+  align-items: baseline;
+}
+main .main-box .donut-charts {
+  display: flex;
+  justify-content: space-evenly;
+}
+main .main-box .donut-charts .donut-chart-box {
+  text-align: center;
+  padding: 10px;
+  width: 49%;
+  position: relative;
+}
+main .main-box .donut-charts .donut-chart-box .pie-chart {
+  width: 100%;
+}
+main .main-box .donut-charts .donut-chart-box .pie-chart-data-text {
+  display: grid;
+  justify-content: center;
+  margin-top: 10px;
+}
+main .main-box .donut-charts .donut-chart-box .pie-chart-data-text .pie-chart-text {
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+}
+main .main-box .donut-charts .donut-chart-box .pie-chart-data-text .pie-chart-text .circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 100px;
+  margin-right: 5px;
+}
+main .main-box .donut-charts .donut-chart-box .pie-chart-data-text .pie-chart-text #orange-circle {
+  background-color: #f59a5f;
+}
+main .main-box .donut-charts .donut-chart-box .pie-chart-data-text .pie-chart-text #green-circle {
+  background-color: #1ada8b;
+}
+main .main-box .donut-charts .donut-chart-box .pie-chart-data-text .pie-chart-text #intermediate-circle {
+  background-color: #45a6d6;
+}
+main .main-box .bar-chart {
+  width: 100%;
+  margin: 5px 0;
+}
+main .main-box .bar-chart .bar-chart-container {
+  width: 100%;
+  background: linear-gradient(#3a3744, #202735);
+  border-radius: 15px;
+  padding: 10px 0;
+  text-align: center;
+}
+main .main-box .bar-chart .bar-chart-container h5 {
+  margin-bottom: 3px;
+}
+main .main-box .bar-chart .bar-chart-container #chart_div_age, main .main-box .bar-chart .bar-chart-container #chart_div_hospital {
+  width: 90%;
+  margin: 0 auto;
+}
+main .main-box .tree-div-container {
+  width: 100%;
+  padding: 10px;
+  border-radius: 15px;
+  background: linear-gradient(#3a3744, #202735);
+  text-align: center;
+  position: relative;
+}
+main .main-box .tree-div-container #chart_div {
+  width: 98%;
+  margin: auto;
+  height: 20em;
+}
+
+#chart_div_popup {
+  width: 100%;
+  height: 80vh;
+}
+
+.information-btn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  cursor: pointer;
+  font-size: 0.8em;
+  outline: none;
+  box-shadow: 0 0 0 0 black;
+}
+
+.tooltip-data {
+  z-index: 2000;
+}
+
+rect {
+  stroke: #272727;
+  stroke-width: 0.3;
+}
+
+/*# sourceMappingURL=style.css.map */
