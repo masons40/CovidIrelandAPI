@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+        {% if not userLog is True%}
+         <div id="form-area">
+            <form id="login" method="POST" action="/covidtracker/loginuser">
+                {{ errors }}
+                {% csrf_token %}
+                <h2>Login</h2>
+                <label>Email</label>
+                <input name="username" type="text">
+                 <label>Password</label>
+                <input type="password" name="password">
+                <button type="submit">Login</button>
+            </form>
+
+
+            <form method="POST" action="/covidtracker/home" id="sign-up">
+                {{ errors }}
+                {% csrf_token %}
+                <h2>Sign up</h2>
+                {{ form }}
+                <button type="submit">Sign up</button>
+            </form>
+        </div>
+        {% endif %}
+
+
+{% endblock content %}

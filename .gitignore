@@ -1,0 +1,4 @@
+covidIreland/
+db.sqlite3
+manage.py
+covidtracker/migrations/

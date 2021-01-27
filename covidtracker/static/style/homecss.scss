@@ -1,0 +1,115 @@
+$background: #f6f6f6;
+$font-colour: #303030;
+$font : 'Montserrat', sans-serif;
+$overlay: #000000a8;
+$button-colour: #1bc79c;
+$toggleButton: #6299ac87;
+
+*{
+    padding:0;
+    border: none;
+    margin: 0;
+}
+body{
+    background-color: $background;
+}
+
+a{
+    font-family: $font;
+    text-decoration: none;
+    color: $font-colour;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding: 2em 0;
+    
+    #title{
+        font-size: 1.4em; 
+        img{
+            margin-left: 10px;
+        }
+    }
+    nav ul{
+        width: 50%;
+        display: flex;
+        justify-content: space-evenly;
+        list-style-type: none;
+        
+        li{
+            margin: 0 15px;
+            font-size: 0.8em;
+            font-family: $font;
+            color: $font-colour;
+            cursor: pointer;
+        }
+    }
+}
+
+#form-area{
+    width:70%;
+    margin: 4em auto;
+    display: flex;
+    justify-content: space-evenly;
+
+    form{
+        padding: 1em;
+        border-radius: 14px;
+        box-shadow: 0px 0px 40px -14px #b5b5b5ed;
+        width: 40%;
+        background-color: white;
+
+        ul{
+            width:80%;
+            margin: 0 auto;
+            li{
+
+                font-family: $font;
+                font-size: 0.8em;
+            }
+        }
+
+        span{
+            font-family: $font;
+            font-size: 0.8em;
+        }
+
+        h2{
+            text-align: center;
+            font-family: $font;
+            margin: 1em 0;
+        }
+        input, button{
+            width:95%;
+            height:30px;
+            margin: 1em auto;
+            border-radius: 7px;
+            outline: none;
+            font-family: $font;
+            padding: 0 5px;
+            background-color: $background;
+        }
+        label{
+            font-family: $font;
+            font-size: 0.9em;
+            color: $font-colour;
+            font-weight: 700;
+        }
+
+        button{
+            background-color: $button-colour;
+            color: $font-colour;
+            font-weight: 700;
+            cursor: pointer;
+            transition: ease 2s transform;
+
+            &:hover{
+                transform: scale(1.01);
+            }
+        }
+    }
+}

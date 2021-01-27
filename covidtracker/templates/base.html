@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>CovidIrelandAPI</title>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+        <meta charset="utf-8" />
+        <link rel="icon" href="M" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <meta name="description" content="Covid-19 API for the Ireland"/>
+        <link rel="apple-touch-icon" href="M" />
+        <script src="https://kit.fontawesome.com/d4fe39a567.js" crossorigin="anonymous"></script>
+        <link href="../../static/style/homecss.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <header>
+            <a href="/" id="title">Covid Ireland API<img src="../../static/images/irelandicon.png"/></a>
+            <nav>
+                <ul>
+                    <li><a href="/covidtracker/about">About</a></li>
+                    <li><a href="/covidtracker/endpoints">Endpoints</a></li>
+                    {% if userLog is True%}
+                        <li><a href="/covidtracker/logout">Logout</a></li>
+                        <li>{{ name }}</li>
+                    {% else %}
+                        <li><a href="/covidtracker/slform">Sign up/login</a></li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+        </header>
+
+        {% block content %}
+        {% endblock content %}
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script src="../../static/script/script.js"></script>
+    </body>
+</html>

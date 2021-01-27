@@ -1,0 +1,102 @@
+* {
+  padding: 0;
+  border: none;
+  margin: 0;
+}
+
+body {
+  background-color: #f6f6f6;
+}
+
+a {
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+  color: #303030;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+  padding: 2em 0;
+}
+header #title {
+  font-size: 1.4em;
+}
+header #title img {
+  margin-left: 10px;
+}
+header nav ul {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  list-style-type: none;
+}
+header nav ul li {
+  margin: 0 15px;
+  font-size: 0.8em;
+  font-family: "Montserrat", sans-serif;
+  color: #303030;
+  cursor: pointer;
+}
+
+#form-area {
+  width: 70%;
+  margin: 4em auto;
+  display: flex;
+  justify-content: space-evenly;
+}
+#form-area form {
+  padding: 1em;
+  border-radius: 14px;
+  box-shadow: 0px 0px 40px -14px #b5b5b5ed;
+  width: 40%;
+  background-color: white;
+}
+#form-area form ul {
+  width: 80%;
+  margin: 0 auto;
+}
+#form-area form ul li {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8em;
+}
+#form-area form span {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8em;
+}
+#form-area form h2 {
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  margin: 1em 0;
+}
+#form-area form input, #form-area form button {
+  width: 95%;
+  height: 30px;
+  margin: 1em auto;
+  border-radius: 7px;
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+  padding: 0 5px;
+  background-color: #f6f6f6;
+}
+#form-area form label {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9em;
+  color: #303030;
+  font-weight: 700;
+}
+#form-area form button {
+  background-color: #1bc79c;
+  color: #303030;
+  font-weight: 700;
+  cursor: pointer;
+  transition: ease 2s transform;
+}
+#form-area form button:hover {
+  transform: scale(1.01);
+}
+
+/*# sourceMappingURL=homecss.css.map */

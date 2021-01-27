@@ -1,6 +1,7 @@
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, User
 from django.shortcuts import render
-
 from .dataFunctions.DataCreator import find_urls, create_data
 from .models import CovidStats, HospitalBarChartStats, AgeBarChartStats, TransmissionStats, GenderStats, \
     CountyStat, CovidHistory
@@ -13,6 +14,75 @@ from .serializers import CovidStatsSerializer, CountyStatSerializer, CovidHistor
 
 
 # Create your views here.
+def home(request):
+    userReg = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = request.POST['username']
+            password = request.POST['password1']
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            return render(request, 'covidtracker/signup.html', {'name': username, 'userLog': True})
+        else:
+            return render(request, 'covidtracker/signup.html', {'errors': form.error_messages, 'form': userReg, 'userLog': False})
+
+    return render(request, 'covidtracker/signup.html', {'form': userReg, 'userLog': False})
+
+
+def logout_view(request):
+    userReg = UserCreationForm()
+    logout(request)
+    return render(request, 'covidtracker/signup.html', {'form': userReg, 'userLog': False})
+
+
+def loginuser(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    userReg = UserCreationForm()
+    if user is not None:
+        login(request, user)
+        return render(request, 'covidtracker/signup.html', {'name': username, 'userLog': True})
+    else:
+        print("error")
+
+    return render(request, 'covidtracker/signup.html', {'userLog': False, 'form': userReg, 'errors': user})
+
+
+def slform(request):
+    info = {}
+    if request.user is not None:
+        info['userLog'] = True
+        info['name'] = request.user.username
+    else:
+        info['userLog'] = False
+    info['form'] = UserCreationForm()
+    return render(request, 'covidtracker/signup.html', info)
+
+
+def about(request):
+    userReg = UserCreationForm()
+    info = {}
+    if request.user is not None:
+        info['userLog'] = True
+        info['name'] = request.user.username
+    else:
+        info['userLog'] = False
+    return render(request, 'covidtracker/about.html', info)
+
+
+def endpoints(request):
+    info = {}
+    if request.user is not None:
+        info['userLog'] = True
+        info['name'] = request.user.username
+    else:
+        info['userLog'] = False
+    return render(request, 'covidtracker/endpoints.html', info)
+
+
 def index(request):
     current_date = date.today()
     yesterday = current_date - timedelta(days=3)
